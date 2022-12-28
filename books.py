@@ -1,3 +1,5 @@
+from enum import Enum
+
 from fastapi import FastAPI, applications
 from fastapi.staticfiles import StaticFiles
 from fastapi.openapi.docs import get_swagger_ui_html
@@ -29,6 +31,24 @@ async def read_favorite_book():
 async def read_book(book_id: int):
     return BOOKS[f"book{book_id}"]
 
+
+class Directions(str, Enum):
+    NORTH = "North"
+    SOUTH = "South"
+    EAST = "East"
+    WEST = "West"
+
+
+@app.get("/directions/{direction}")
+async def get_direction(direction: Directions):
+    if direction == Directions.NORTH:
+        return {"direction": direction, "sub": "Up"}
+    if direction == Directions.SOUTH:
+        return {"direction": direction, "sub": "Down"}
+    if direction == Directions.EAST:
+        return {"direction": direction, "sub": "Right"}
+    if direction == Directions.WEST:
+        return {"direction": direction, "sub": "Left"}
 
 def swagger_monkey_patch(*args, **kwargs):
     return get_swagger_ui_html(
