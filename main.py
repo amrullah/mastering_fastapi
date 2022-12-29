@@ -22,13 +22,27 @@ applications.get_swagger_ui_html = swagger_monkey_patch
 
 
 # --------------------------------------------------------
-@app.get('/blogs/all', tags=['blog'])
+@app.get(
+    '/blogs/all',
+    tags=['blog'],
+    summary="Retrieve all blogs",
+    description="Simulates List blogs api",
+    response_description="List of all blogs"
+)
 def get_all_blogs(page: int = 1, page_size: Optional[int] = None):
     return {'message': f'All {page_size} blogs on page {page}'}
 
 
-@app.get('/blog/{id}/comments/{comment_id}', tags=['blog', 'comment'])
+@app.get(
+    '/blog/{id}/comments/{comment_id}',
+    tags=['blog', 'comment']
+)
 def get_comment(id: int, comment_id: int, valid: bool = True, username: Optional[str] = None):
+    """
+    Simulates retrieving a comment of a blog
+    - **id** mandatory
+    - **comment_id** mandatory
+    """
     return {'message': f'blog_id {id} comment_id {comment_id}, valid {valid} username {username}'}
 
 
