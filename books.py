@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Optional
 
 from fastapi import FastAPI, applications
 from fastapi.staticfiles import StaticFiles
@@ -17,8 +18,14 @@ BOOKS = {
 }
 
 
+# parameters with no corresponding path variable will be considered query string variables, ie. /?skip_book=...
 @app.get("/")
-async def read_all_books():
+async def read_all_books(skip_book: Optional[str] = None):
+    # you can also provide a default value for the parameter other than None
+    if skip_book:
+        new_books = BOOKS.copy()
+        del new_books[skip_book]
+        return new_books
     return BOOKS
 
 
@@ -49,6 +56,7 @@ async def get_direction(direction: Directions):
         return {"direction": direction, "sub": "Right"}
     if direction == Directions.WEST:
         return {"direction": direction, "sub": "Left"}
+
 
 def swagger_monkey_patch(*args, **kwargs):
     return get_swagger_ui_html(
