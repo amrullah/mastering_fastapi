@@ -1,6 +1,6 @@
 from typing import Optional
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 from starlette import status
 from starlette.responses import Response
 from pydantic import BaseModel
@@ -21,3 +21,15 @@ class BlogModel(BaseModel):
 def create_post(blog: BlogModel, id: int, version: int = 1):
     # blog is request body, id is path parameter and version is query parameter
     return "OK"
+
+
+@router.post("/new/{id}/comment")
+def create_comment(
+        blog: BlogModel, id: int, comment_id:
+        int = Query(title="Id of the comment",
+                    description="Some description for comment_id")):
+    return {
+        "blog": blog,
+        "id": id,
+        "comment_id": comment_id
+    }
