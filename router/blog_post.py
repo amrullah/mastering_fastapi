@@ -1,8 +1,6 @@
-from typing import Optional, List
+from typing import Optional, List, Dict
 
 from fastapi import APIRouter, Query, Body
-from starlette import status
-from starlette.responses import Response
 from pydantic import BaseModel
 
 router = APIRouter(
@@ -11,10 +9,18 @@ router = APIRouter(
 )
 
 
+class BlogImage(BaseModel):
+    url: str
+    alias: str
+
+
 class BlogModel(BaseModel):
     title: str
     content: str
     published: Optional[bool]
+    tags: List[str]
+    metadata: Dict[str, str] = {'key1': 'val1'}
+    image: Optional[BlogImage] = None
 
 
 @router.post("/new/{id}")
