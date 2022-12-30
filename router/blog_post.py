@@ -27,7 +27,9 @@ def create_post(blog: BlogModel, id: int, version: int = 1):
 def create_comment(
         blog: BlogModel, id: int, comment_id:
         int = Query(title="Id of the comment",
-                    description="Some description for comment_id")):
+                    description="Some description for comment_id",
+                    alias="commentId",  # this will be the json field key
+                    deprecated=True)):
     return {
         "blog": blog,
         "id": id,
