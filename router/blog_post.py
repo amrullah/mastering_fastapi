@@ -1,6 +1,6 @@
 from typing import Optional
 
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Body
 from starlette import status
 from starlette.responses import Response
 from pydantic import BaseModel
@@ -29,9 +29,15 @@ def create_comment(
         int = Query(title="Id of the comment",
                     description="Some description for comment_id",
                     alias="commentId",  # this will be the json field key
-                    deprecated=True)):
+                    deprecated=True),
+        content: str = Body("Hi how are you"),  # this is a required field, other than the blog object, in the request
+        some_more_content: str = Body(..., min_length=10)  # this is optional, due to ... provided for default param
+    ):
     return {
         "blog": blog,
         "id": id,
-        "comment_id": comment_id
+        "comment_id": comment_id,
+        "content": content
     }
+
+
