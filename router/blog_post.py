@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from fastapi import APIRouter, Query, Body
 from starlette import status
@@ -31,7 +31,8 @@ def create_comment(
                     alias="commentId",  # this will be the json field key
                     deprecated=True),
         content: str = Body("Hi how are you"),  # this is a required field, other than the blog object, in the request
-        some_more_content: str = Body(..., min_length=10)  # this is optional, due to ... provided for default param
+        some_more_content: str = Body(..., min_length=10),  # this is optional, due to ... provided for default param
+        v: Optional[List[str]] = Query(default=["1.0", "1.1"])  # accepts multi-value query param, v=1&v=2... and so on
     ):
     return {
         "blog": blog,
