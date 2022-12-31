@@ -2,6 +2,8 @@ from fastapi import FastAPI, applications
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.staticfiles import StaticFiles
 
+from db import models
+from db.database import engine
 from router import blog_get, blog_post
 
 app = FastAPI()
@@ -22,4 +24,5 @@ def swagger_monkey_patch(*args, **kwargs):
 applications.get_swagger_ui_html = swagger_monkey_patch
 
 
+models.Base.metadata.create_all(engine)
 # --------------------------------------------------------
